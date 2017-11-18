@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private String userUId;
+    private String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        userUId = mAuth.getCurrentUser().getUid();
+        user_id = mAuth.getCurrentUser().getUid();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User profile = dataSnapshot.child("users").child(userUId).child("profile").getValue(User.class);
+                User profile = dataSnapshot.child("users").child(user_id).child("profile").getValue(User.class);
 
                 if (profile!=null){
                     String mobile_number = profile.getUserMobileno();
