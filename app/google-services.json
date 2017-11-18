@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "160166549975",
+    "firebase_url": "https://digitalmoney-5538d.firebaseio.com",
+    "project_id": "digitalmoney-5538d",
+    "storage_bucket": "digitalmoney-5538d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160166549975:android:525d28de118278ea",
+        "android_client_info": {
+          "package_name": "com.digitalmoney.home"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160166549975-qfp7bma2cavhflut2nb5vfmt5ogllrvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.digitalmoney.home",
+            "certificate_hash": "137ba38c913e08e0afd2701e974e59d9c3bdf93e"
+          }
+        },
+        {
+          "client_id": "160166549975-vg5pfquteoa8aj0iko16kdbsfv4hdivt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.digitalmoney.home",
+            "certificate_hash": "aa49e5a5508fce1fd21c9e41934fcded6e49582a"
+          }
+        },
+        {
+          "client_id": "160166549975-qmjpm0vnpuvkmbh3m9r8esibk9ild83e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTzoJtPB56e3YZ_ckwdxIHv3iRviWJCvg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160166549975-qmjpm0vnpuvkmbh3m9r8esibk9ild83e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

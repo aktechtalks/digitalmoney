@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_task"
+            android:icon="@drawable/ic_task"
+            android:title="Today's Task" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_notification"
+            android:title="Notification" />
+
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/ic_wallet"
+            android:title="Wallet" />
+        <item
+            android:id="@+id/nav_referral"
+            android:icon="@drawable/ic_referral"
+            android:title="My Referral"/>
+        <item
+            android:id="@+id/nav_offer"
+            android:icon="@drawable/ic_offer"
+            android:title="Offer Wall" />
+        <item
+            android:id="@+id/nav_plan"
+            android:icon="@drawable/ic_plan"
+            android:title="Plan" />
+        <item
+            android:id="@+id/nav_invite_earn"
+            android:icon="@drawable/ic_invite"
+            android:title="Invite and Earn"/>
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/ic_support"
+            android:title="Support" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout"/>
+    </group>
+
+
+</menu>
