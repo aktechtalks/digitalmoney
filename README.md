@@ -1,7 +1,5 @@
 # DIGITAL MONEY #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### EARN MONEY ONLINE USING THIS APPLICATION ###
 
 * Digital Money is Application for creating online money where users can earn sufficient money using this money fro there wallet and other recharges , bill payments and much more.

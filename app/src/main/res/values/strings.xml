@@ -88,4 +88,33 @@
     <string name="terms_condition">This following sets out the terms and conditions on which you may use the content on business-standard.com website, business-standard.com\'s mobile browser site</string>
     <string name="bottom_terms">We welcome users to register on our digital platforms. We offer the below mentioned registration services which may be subject to change in the future. All changes will be appended in the terms and conditions page and communicated to existing users by email.</string>
     <string name="nothing_to_show">There is nothing to show</string>
+    <string name="add_notification">Add Notification</string>
+    <string name="provide_notification_title">Please provide title of the notification</string>
+    <string name="provide_notification_description">Please provide description of the notification</string>
+    <string name="added_successfully">Notification Added Successfully</string>
+    <string name="addedion_failed">Sorry! Could not add notification</string>
+
+    <string name="impossible_game">Impossible Game</string>
+    <string name="retry_button_text">Retry</string>
+    <string name="watch_video_button_text">Watch Video for 10 additional coins</string>
+    <string name="default_coin_text">Coins: 0</string>
+    <string name="title_signup">Signup</string>
+    <string name="title_login">Login</string>
+
+
+    <array name="icons">
+        <item>@drawable/ic_twitter</item>
+        <item>@drawable/ic_facebook</item>
+        <item>@drawable/ic_whatsapp</item>
+        <item>@drawable/ic_gmail</item>
+        <item>@drawable/if_google_plus</item>
+    </array>
+    <array name="colors">
+        <item>@android:color/holo_blue_light</item>
+        <item>@android:color/holo_green_dark</item>
+        <item>@android:color/holo_red_light</item>
+        <item>@android:color/holo_purple</item>
+        <item>@android:color/holo_orange_light</item>
+    </array>
+
 </resources>

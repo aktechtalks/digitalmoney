@@ -26,11 +26,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textAppearance="?android:textAppearanceLarge"
+                android:textAppearance="?android:textAppearanceMedium"
                 android:text="@string/app_name"/>
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,6 +93,11 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:hint="@string/enter_paytm_mobile_number"
+                android:background="@drawable/circle_background"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:drawableLeft="@drawable/ic_phone"
+                android:inputType="phone"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
                 android:textAppearance="?android:textAppearanceMedium" />
 
             <RelativeLayout
@@ -110,11 +120,11 @@
 
                 <ImageView
                     android:id="@+id/ivQRImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
                     android:layout_alignParentRight="true"
+                    android:scaleType="fitCenter"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/activity_horizontal_margin"
                     android:background="@drawable/ic_image"/>
 
             </RelativeLayout>
@@ -126,8 +136,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/nav_header_height"
+                android:layout_marginBottom="@dimen/nav_header_height"
                 android:text="@string/submit"
                 android:textColor="@color/colorWhite"
                 android:background="@drawable/circle_background"
@@ -137,6 +147,9 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
     </LinearLayout>
+
+    </ScrollView>
+
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adViewShareTop"

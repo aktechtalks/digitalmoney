@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,18 +18,21 @@ import com.github.oliveiradev.lib.shared.TypeRequest;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+
 public class RedeemActivity extends AppCompatActivity {
 
-    private android.support.v7.widget.Toolbar toolbar;
-    private Typeface typefaceBold;
-    private Typeface typefaceLarge;
-    private ImageView ivQRImage;
-    private EditText etMobileNo;
-    private TextView tvWalletMoney;
-    private TextView tvQRCode;
-    private Button btnSubmit;
-    private TextView tvWallet;
-    private AdView mAdViewTop, mAdViewBottom;
+    private Toolbar    toolbar;
+    private Typeface   typefaceBold;
+    private Typeface   typefaceLarge;
+    private ImageView  ivQRImage;
+    private EditText   etMobileNo;
+    private TextView   tvWalletMoney;
+    private TextView   tvQRCode;
+    private Button     btnSubmit;
+    private TextView   tvWallet;
+    private TextView   toolbarTitle;
+    private AdView     mAdViewTop, mAdViewBottom;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,34 +46,18 @@ public class RedeemActivity extends AppCompatActivity {
 
     private void initUI(){
 
-        typefaceBold = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_BOLD);
-        typefaceLarge = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_LARGE);
+        typefaceBold          = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_BOLD);
+        typefaceLarge         = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_LARGE);
+        toolbar               = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTitle          = (TextView) toolbar.findViewById(R.id.toolbarTitle);
+        ivQRImage             = (ImageView) findViewById(R.id.ivQRImage);
+        etMobileNo            = (EditText) findViewById(R.id.etMobileNo);
+        tvWalletMoney         = (TextView) findViewById(R.id.tvWalletMoney);
+        tvQRCode              = (TextView) findViewById(R.id.tvQRCode);
+        btnSubmit             = (Button) findViewById(R.id.btnSubmit);
+        tvWallet              = (TextView) findViewById(R.id.tvWallet);
 
-        mAdViewTop = (AdView)findViewById(R.id.adViewShareTop);
-        mAdViewBottom = (AdView)findViewById(R.id.adViewShareBottom);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdViewBottom.loadAd(adRequest);
-        mAdViewTop.loadAd(adRequest);
-
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        toolbarTitle.setTypeface(typefaceBold);
-        toolbarTitle.setText("Paytm");
-        setSupportActionBar(toolbar);
-
-        ivQRImage = (ImageView) findViewById(R.id.ivQRImage);
-        etMobileNo = (EditText) findViewById(R.id.etMobileNo);
-        etMobileNo.setTypeface(typefaceLarge);
-        tvWalletMoney = (TextView) findViewById(R.id.tvWalletMoney);
-        tvWalletMoney.setTypeface(typefaceBold);
-        tvQRCode = (TextView) findViewById(R.id.tvQRCode);
-        tvQRCode.setTypeface(typefaceBold);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnSubmit.setTypeface(typefaceBold);
-        tvWallet = (TextView) findViewById(R.id.tvWallet);
-        tvWallet.setTypeface(typefaceLarge);
-
-
+        setTypeface();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,11 +83,33 @@ public class RedeemActivity extends AppCompatActivity {
     }
 
 
+
+
+    private void setTypeface() {
+
+        tvWallet.setTypeface(typefaceLarge);
+        etMobileNo.setTypeface(typefaceLarge);
+        tvWalletMoney.setTypeface(typefaceBold);
+        tvQRCode.setTypeface(typefaceBold);
+        btnSubmit.setTypeface(typefaceBold);
+
+        toolbarTitle.setTypeface(typefaceBold);
+        toolbarTitle.setText("Paytm");
+        setSupportActionBar(toolbar);
+
+        mAdViewTop    = (AdView)findViewById(R.id.adViewShareTop);
+        mAdViewBottom = (AdView)findViewById(R.id.adViewShareBottom);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdViewBottom.loadAd(adRequest);
+        mAdViewTop.loadAd(adRequest);
+    }
+
+
     private void pickImageFromGallery() {
 
         RxPhoto.requestBitmap(getApplicationContext(), TypeRequest.GALLERY).doOnNext((bitmap) -> {
             ivQRImage.setImageBitmap(bitmap);
-            ivQRImage.setScaleType(ImageView.ScaleType.CENTER);
+            ivQRImage.setScaleType(ImageView.ScaleType.FIT_XY);
         }).subscribe();
 
     }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="com.digitalmoney.home.ui.LoginOption">
+
+
+    <ImageView
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_wallet_white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8sp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSignup"
+            android:layout_width="0sp"
+            android:layout_height="40sp"
+            android:text="@string/title_signup"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="8sp"
+            android:background="@drawable/white_border_background"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="0sp"
+            android:layout_height="40sp"
+            android:text="@string/title_login"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/white_border_background"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

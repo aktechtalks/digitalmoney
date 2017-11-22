@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void logoutApp() {
         mAuth.signOut();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent intent = new Intent(MainActivity.this, LoginWithEmail.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
