@@ -1,8 +1,6 @@
 package com.digitalmoney.home.fragments;
 
-import android.app.Notification;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,13 +12,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
 import com.digitalmoney.home.adapters.NotificationAdapter;
 import com.digitalmoney.home.models.Task;
-import com.digitalmoney.home.models.User;
-import com.digitalmoney.home.ui.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +41,7 @@ public class NotificationFragment extends Fragment {
     private RecyclerView recyclerView;
     private NotificationAdapter mAdapter;
     private DatabaseReference mDatabase;
+    private ProgressBar progressBar;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,34 +56,43 @@ public class NotificationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(getResources().getString(R.string.title_notification));
 
+        mDatabase.keepSynced(true);
+        mDatabase.child("users").child("notification").addValueEventListener(new ValueEventListener() {
 
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Task notification_model = dataSnapshot.child("users").child("notification").getValue(Task.class);
-
-                if (notification_model!=null){
-
-                    String heading = notification_model.getTaskId();
-                    String description = notification_model.getTaskName();
-
-                    prepareTaskData(heading, description);
-
-                }else {
-                    Toast.makeText(getContext(), "No Notification Found", Toast.LENGTH_SHORT).show();
-                }
-
+                progressBar.setVisibility(View.GONE);
+                getUpdates(dataSnapshot);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("Error:-->", "loadPost:onCancelled", databaseError.toException());
-                Toast.makeText(getContext(), databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
+
+
+
+        private void getUpdates(DataSnapshot dataSnapshot) {
+            taskList.clear();
+            if (dataSnapshot.getChildren()!=null){
+
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+
+                        Task model = new Task();
+                        model.setTaskId(data.getValue(Task.class).getTaskId());
+                        model.setTaskName(data.getValue(Task.class).getTaskName());
+                        taskList.add(new Task(model.getTaskId(), model.getTaskName()));
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        }
+
+
 
 
     private void initUI(View view) {
@@ -95,15 +102,11 @@ public class NotificationFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
         recyclerView.addOnItemTouchListener(new NotificationFragment.RecyclerTouchListener(getContext(), recyclerView, new TaskFragment.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                /*Task movie = taskList.get(position);
-                Snackbar.make(view,movie.getTaskName() + " is selected!",Snackbar.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(), TaskReportActivity.class);
-                intent.putExtra("taskTitle", movie.getTaskName().toString());
-                startActivity(intent);*/
             }
             @Override
             public void onLongClick(View view, int position) {
@@ -113,16 +116,6 @@ public class NotificationFragment extends Fragment {
 
 
     }
-
-    private void prepareTaskData(String notificationTitle, String notificationDescription) {
-
-        Task taskNotification = new Task(notificationDescription, notificationTitle);
-        taskList.add(taskNotification);
-        mAdapter.notifyDataSetChanged();
-    }
-
-
-
 
     public interface ClickListener {
         void onClick(View view, int position);

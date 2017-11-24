@@ -10,11 +10,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daasuu.cat.CountAnimationTextView;
 import com.digitalmoney.home.R;
-import com.digitalmoney.home.Utility.Utils;
+import com.digitalmoney.home.models.Task;
+import com.digitalmoney.home.models.TaskCounterModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import static com.digitalmoney.home.Utility.Utils.PREF_KEY_INSTALL;
+import static com.digitalmoney.home.Utility.Utils.PREF_KEY_SUCCESS_IMPRESSION;
+import static com.digitalmoney.home.Utility.Utils.PREF_KEY_SUCCESS_INSTALL;
+import static com.digitalmoney.home.Utility.Utils.PREF_KEY_TOTAL_IMPRESSION;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_BOLD;
 
 public class TaskCounter extends BaseActivity {
@@ -24,11 +37,15 @@ public class TaskCounter extends BaseActivity {
     private ProgressBar count_progress;
     private ImageView finishedView;
     private Button buttonNext;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_counter);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        loadAddView();
+
         initUI();
     }
 
@@ -90,14 +107,57 @@ public class TaskCounter extends BaseActivity {
 
     private void increaseSuccessImpression() {
 
-        String total_pref = getPreferences(Utils.PREF_KEY_TOTAL_IMPRESSION);
+        String total_pref = getLocale(getApplicationContext(), PREF_KEY_TOTAL_IMPRESSION);//getPreferences(Utils.PREF_KEY_TOTAL_IMPRESSION);
         int pref_count = Integer.parseInt(total_pref);
         ++pref_count;
 
-        savePreferences(Utils.PREF_KEY_TOTAL_IMPRESSION, String.valueOf(pref_count));
-        savePreferences(Utils.PREF_KEY_SUCCESS_IMPRESSION,"");
-        savePreferences(Utils.PREF_KEY_INSTALL,"");
-        savePreferences(Utils.PREF_KEY_SUCCESS_INSTALL, "");
+        setLocale(getApplicationContext(),PREF_KEY_TOTAL_IMPRESSION, String.valueOf(pref_count));
+        setLocale(getApplicationContext(),PREF_KEY_SUCCESS_IMPRESSION,"0");
+        setLocale(getApplicationContext(),PREF_KEY_INSTALL,"0");
+        setLocale(getApplicationContext(),PREF_KEY_SUCCESS_INSTALL, "");
+        saveDataInFirebaseDB(String.valueOf(pref_count),"0","0","0");
+
     }
 
+
+
+
+    private void loadAddView(){
+
+        AdView adView1    = (AdView)findViewById(R.id.adView1);
+        AdView adView2 = (AdView)findViewById(R.id.adView2);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView1.loadAd(adRequest);
+        adView2.loadAd(adRequest);
+    }
+
+
+
+    protected void saveDataInFirebaseDB(String totalImpression, String successImpression, String totalInstall, String successInstall){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user!=null){
+
+            mDatabase.child("users").child(user.getUid()).child("taskCounter").push()
+                    .setValue(new TaskCounterModel(totalImpression, successImpression, totalInstall, successInstall),
+                            new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                    if (databaseError == null){
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.addedion_failed), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
+
+
+    }
 }

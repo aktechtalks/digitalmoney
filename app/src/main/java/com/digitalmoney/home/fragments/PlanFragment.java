@@ -44,7 +44,7 @@ public class PlanFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getResources().getString(R.string.title_today_task));
+        getActivity().setTitle(getResources().getString(R.string.title_plan));
     }
 
 

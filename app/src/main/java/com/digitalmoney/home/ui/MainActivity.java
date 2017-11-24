@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.fragments.AdminFragment;
+import com.digitalmoney.home.fragments.EarnFragment;
 import com.digitalmoney.home.fragments.NotificationFragment;
 import com.digitalmoney.home.fragments.OfferFragment;
 import com.digitalmoney.home.fragments.PlanFragment;
@@ -98,22 +100,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Uri photoUrl = user.getPhotoUrl();
             boolean emailVerified = user.isEmailVerified();
             String uid = user.getUid();
-
-            Log.e("uid: ", uid);
-            Log.e("photoUrl: ", ""+photoUrl);
-            Log.e("isEmail Verified: ", ""+emailVerified);
         }
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User profile = dataSnapshot.child("users").child(user_id).child("profile").getValue(User.class);
+                User profile = dataSnapshot.child("users").child(user.getUid()).child("profile").getValue(User.class);
 
                 if (profile!=null){
                     String mobile_number = profile.getUserMobileno();
                     String user_name = profile.getUserName();
                     tvUserName.setText(user_name);
-                    tvUserReferralCode.setText("mobile: "+mobile_number);
+                    tvUserReferralCode.setText(mobile_number);
                 }
 
             }
@@ -190,6 +188,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_logout:
                 logoutApp();
                 break;
+            case R.id.nav_admin:
+                fragment = new AdminFragment();
+                break;
+
         }
 
         if (fragment != null) {

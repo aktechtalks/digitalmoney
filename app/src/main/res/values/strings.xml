@@ -88,7 +88,7 @@
     <string name="terms_condition">This following sets out the terms and conditions on which you may use the content on business-standard.com website, business-standard.com\'s mobile browser site</string>
     <string name="bottom_terms">We welcome users to register on our digital platforms. We offer the below mentioned registration services which may be subject to change in the future. All changes will be appended in the terms and conditions page and communicated to existing users by email.</string>
     <string name="nothing_to_show">There is nothing to show</string>
-    <string name="add_notification">Add Notification</string>
+
     <string name="provide_notification_title">Please provide title of the notification</string>
     <string name="provide_notification_description">Please provide description of the notification</string>
     <string name="added_successfully">Notification Added Successfully</string>
@@ -100,6 +100,13 @@
     <string name="default_coin_text">Coins: 0</string>
     <string name="title_signup">Signup</string>
     <string name="title_login">Login</string>
+    <string name="todo">TODO</string>
+    <string name="task_start">Start</string>
+    <string name="add_notification">Add Notification</string>
+    <string name="add_task">Add Task</string>
+    <string name="add_task_completion_in_percengage">Add Task Completion in Percengage</string>
+    <string name="add_media">Add Media</string>
+    <string name="title_admin">Admin</string>
 
 
     <array name="icons">

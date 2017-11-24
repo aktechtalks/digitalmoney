@@ -50,6 +50,8 @@
         android:paddingStart="15sp"
         android:paddingEnd="15dp"
         android:gravity="center"
+        android:drawableLeft="@drawable/ic_phone"
+        android:drawablePadding="@dimen/nav_header_vertical_spacing"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:paddingTop="5sp"
         android:paddingBottom="5sp"

@@ -19,6 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by shailesh on 18/11/17.
  */
@@ -32,6 +35,7 @@ public class AdminNotification extends AppCompatActivity{
     private TextInputLayout   layout_description;
     private TextInputEditText et_title;
     private TextInputEditText et_description;
+    private List<Task> modelTask = new ArrayList<>();
 
 
     @Override
@@ -40,20 +44,20 @@ public class AdminNotification extends AppCompatActivity{
         setContentView(R.layout.admin_notification);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        btnAdd =         (Button) findViewById(R.id.addNotification);
-        loading =        (ProgressBar) findViewById(R.id.loading);
-        layout_title =   (TextInputLayout) findViewById(R.id.layout_title);
-        layout_title =   (TextInputLayout) findViewById(R.id.layout_description);
-        et_title =       (TextInputEditText) findViewById(R.id.et_title);
-        et_description = (TextInputEditText) findViewById(R.id.et_description);
+        btnAdd             = (Button) findViewById(R.id.addNotification);
+        loading            = (ProgressBar) findViewById(R.id.loading);
+        layout_title       = (TextInputLayout) findViewById(R.id.layout_title);
+        layout_description = (TextInputLayout) findViewById(R.id.layout_description);
+        et_title           = (TextInputEditText) findViewById(R.id.et_title);
+        et_description     = (TextInputEditText) findViewById(R.id.et_description);
 
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                layout_title.setError(null);
-                layout_description.setError(null);
+                layout_title.setError("");
+                layout_description.setError("");
 
                 String title = et_title.getText().toString().trim();
                 String description = et_description.getText().toString().trim();
@@ -65,9 +69,28 @@ public class AdminNotification extends AppCompatActivity{
                     Snackbar.make(view, getResources().getString(R.string.provide_notification_description), Snackbar.LENGTH_SHORT).show();
                     layout_description.setError(getResources().getString(R.string.provide_notification_description));
                 }else {
+
                     loading.setVisibility(View.VISIBLE);
-                    Task taskNotification = new Task(title, description);
-                    addNotification(taskNotification);
+                    mDatabase.child("users").child("notification").push().setValue(new Task(title, description), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                            loading.setVisibility(View.GONE);
+
+                            if (databaseError == null){
+                                Toast.makeText(AdminNotification.this,
+                                        getResources().getString(R.string.added_successfully), Toast.LENGTH_SHORT).show();
+                                et_title.setText("");
+                                et_description.setText("");
+                            }
+                            else {
+                                Toast.makeText(AdminNotification.this,
+                                        getResources().getString(R.string.addedion_failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
                 }
             }
         });
@@ -75,27 +98,6 @@ public class AdminNotification extends AppCompatActivity{
     }
 
 
-    private void addNotification(Task taskNotification) {
-
-        mDatabase.child("users").child("notification").setValue(taskNotification, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                loading.setVisibility(View.GONE);
-
-                if (databaseError == null){
-
-                    Toast.makeText(AdminNotification.this,
-                            getResources().getString(R.string.added_successfully),
-                            Toast.LENGTH_SHORT).show();
-                }
-                else {
-
-                    Toast.makeText(AdminNotification.this,
-                            getResources().getString(R.string.addedion_failed), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
 
 }

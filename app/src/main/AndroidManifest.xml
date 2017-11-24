@@ -45,7 +45,8 @@
         <activity android:name=".ui.RedeemActivity" />
         <activity android:name=".ui.WebViewActivity" />
         <activity android:name=".ui.LoginWithEmail" />
-        <activity android:name=".ui.LoginOption"></activity>
+        <activity android:name=".ui.LoginOption"/>
+        <activity android:name=".admin.AdminNotification"/>
     </application>
 
 </manifest>

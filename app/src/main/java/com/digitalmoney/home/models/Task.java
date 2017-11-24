@@ -10,6 +10,9 @@ public class Task {
     private String taskName;
     private String taskId;
 
+    public Task() {
+    }
+
     @Override
     public String toString() {
         return "Task{" +
