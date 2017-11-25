@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.digitalmoney.home.Utility.Utils.SHARED_PREF;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_BOLD;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_LARGE;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_MEDIUM;
@@ -43,7 +44,7 @@ public class BaseActivity extends AppCompatActivity{
 
     /* Set Preferences */
     public void setLocale(Context context, String pref_key, String pref_value) {
-        SharedPreferences prefs = context.getSharedPreferences("DIGITAL_APP", 0);
+        SharedPreferences prefs = context.getSharedPreferences(SHARED_PREF, 0);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(pref_key, pref_value);
         editor.apply();
@@ -51,7 +52,7 @@ public class BaseActivity extends AppCompatActivity{
 
     /* Get Preferences */
     public  String getLocale(Context context, String pref_key) {
-        SharedPreferences prefs = context.getSharedPreferences("DIGITAL_APP", 0);
+        SharedPreferences prefs = context.getSharedPreferences(SHARED_PREF, 0);
         return prefs.getString(pref_key, "0");
     }
 

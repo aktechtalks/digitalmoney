@@ -5,11 +5,15 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.digitalmoney.home.R;
 import com.digitalmoney.home.Utility.Utils;
@@ -17,21 +21,30 @@ import com.github.oliveiradev.lib.RxPhoto;
 import com.github.oliveiradev.lib.shared.TypeRequest;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.digitalmoney.home.Utility.Utils.PREF_KEY_COIN_COUNT;
+import static com.digitalmoney.home.Utility.Utils.WALLET_MONEY;
 
 
-public class RedeemActivity extends AppCompatActivity {
+public class RedeemActivity extends BaseActivity {
 
-    private Toolbar    toolbar;
-    private Typeface   typefaceBold;
-    private Typeface   typefaceLarge;
-    private ImageView  ivQRImage;
-    private EditText   etMobileNo;
-    private TextView   tvWalletMoney;
-    private TextView   tvQRCode;
-    private Button     btnSubmit;
-    private TextView   tvWallet;
-    private TextView   toolbarTitle;
-    private AdView     mAdViewTop, mAdViewBottom;
+    private Toolbar           toolbar;
+    private Typeface          typefaceBold;
+    private Typeface          typefaceLarge;
+    private ImageView         ivQRImage;
+    private EditText          etMobileNo;
+    private TextView          tvWalletMoney;
+    private TextView          tvQRCode;
+    private Button            btnSubmit;
+    private TextView          tvWallet;
+    private AdView            mAdViewTop, mAdViewBottom;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -45,17 +58,20 @@ public class RedeemActivity extends AppCompatActivity {
 
 
     private void initUI(){
+        mDatabase            = FirebaseDatabase.getInstance().getReference();
+        typefaceBold    = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_BOLD);
+        typefaceLarge   = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_LARGE);
+        toolbar         = (Toolbar) findViewById(R.id.toolbar);
 
-        typefaceBold          = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_BOLD);
-        typefaceLarge         = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_LARGE);
-        toolbar               = (Toolbar) findViewById(R.id.toolbar);
-        toolbarTitle          = (TextView) toolbar.findViewById(R.id.toolbarTitle);
-        ivQRImage             = (ImageView) findViewById(R.id.ivQRImage);
-        etMobileNo            = (EditText) findViewById(R.id.etMobileNo);
-        tvWalletMoney         = (TextView) findViewById(R.id.tvWalletMoney);
-        tvQRCode              = (TextView) findViewById(R.id.tvQRCode);
-        btnSubmit             = (Button) findViewById(R.id.btnSubmit);
-        tvWallet              = (TextView) findViewById(R.id.tvWallet);
+        ivQRImage       = (ImageView) findViewById(R.id.ivQRImage);
+        etMobileNo      = (EditText) findViewById(R.id.etMobileNo);
+        tvWalletMoney   = (TextView) findViewById(R.id.tvWalletMoney);
+        tvQRCode        = (TextView) findViewById(R.id.tvQRCode);
+        btnSubmit       = (Button) findViewById(R.id.btnSubmit);
+        tvWallet        = (TextView) findViewById(R.id.tvWallet);
+
+        String walletMoney = getLocale(this, WALLET_MONEY);
+        tvWalletMoney.setText(walletMoney);
 
         setTypeface();
 
@@ -80,6 +96,37 @@ public class RedeemActivity extends AppCompatActivity {
                 pickImageFromGallery();
             }
         });
+
+
+
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object wallet = dataSnapshot.child("users").child(uid).child("wallet_money").getValue();
+
+                if (wallet!=null){
+                    Log.e("wallet_money::::::",wallet.toString());
+                    tvWalletMoney.setText(wallet.toString());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error:-->", "loadPost:onCancelled", databaseError.toException());
+                Toast.makeText(getApplicationContext(), databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
+
     }
 
 
@@ -93,9 +140,9 @@ public class RedeemActivity extends AppCompatActivity {
         tvQRCode.setTypeface(typefaceBold);
         btnSubmit.setTypeface(typefaceBold);
 
-        toolbarTitle.setTypeface(typefaceBold);
-        toolbarTitle.setText("Paytm");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Paytm");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAdViewTop    = (AdView)findViewById(R.id.adViewShareTop);
         mAdViewBottom = (AdView)findViewById(R.id.adViewShareBottom);
@@ -109,10 +156,15 @@ public class RedeemActivity extends AppCompatActivity {
 
         RxPhoto.requestBitmap(getApplicationContext(), TypeRequest.GALLERY).doOnNext((bitmap) -> {
             ivQRImage.setImageBitmap(bitmap);
-            ivQRImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            ivQRImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }).subscribe();
 
     }
 
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 }

@@ -1,7 +1,6 @@
 package com.digitalmoney.home.ui;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
-import com.digitalmoney.home.Utility.Utils;
+import com.digitalmoney.home.Utility.VideoBanner;
 import com.digitalmoney.home.models.TaskCounterModel;
-import com.digitalmoney.home.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +24,6 @@ import static com.digitalmoney.home.Utility.Utils.PREF_KEY_INSTALL;
 import static com.digitalmoney.home.Utility.Utils.PREF_KEY_SUCCESS_IMPRESSION;
 import static com.digitalmoney.home.Utility.Utils.PREF_KEY_SUCCESS_INSTALL;
 import static com.digitalmoney.home.Utility.Utils.PREF_KEY_TOTAL_IMPRESSION;
-import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_BOLD;
 
 public class TaskReportActivity extends BaseActivity {
 
@@ -37,7 +34,7 @@ public class TaskReportActivity extends BaseActivity {
     private TextView                  tvInstallCounter;
     private TextView                  tvSuccessInstallCounter;
     private AppCompatButton           btnInstall;
-    private DatabaseReference mDatabase;
+    private DatabaseReference         mDatabase;
 
 
     @Override
@@ -100,6 +97,7 @@ public class TaskReportActivity extends BaseActivity {
         taskTitle                      = getIntent().getStringExtra("taskTitle");
 
 
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(taskTitle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,10 +136,24 @@ public class TaskReportActivity extends BaseActivity {
         btnInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), TaskCounter.class);
+
+                Intent intentVideoBanner = new Intent(TaskReportActivity.this, InterstitialActivity.class);
+                intentVideoBanner.putExtra("taskTitle", taskTitle);
+                startActivity(intentVideoBanner);
+
+
+                /*Intent intent = new Intent(getApplicationContext(), TaskCounter.class);
                 intent.putExtra("taskTitle", taskTitle);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
+    }
+
+
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 }
