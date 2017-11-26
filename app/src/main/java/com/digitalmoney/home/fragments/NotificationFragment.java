@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.Utility.Utils;
 import com.digitalmoney.home.adapters.NotificationAdapter;
 import com.digitalmoney.home.models.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -54,7 +56,10 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getResources().getString(R.string.title_notification));
+
+        SpannableString fragTitle = Utils.setSpannableString(getContext(),
+                getResources().getString(R.string.title_notification), Utils.TYPEFACE_LARGE);
+        getActivity().setTitle(fragTitle);
 
         mDatabase.keepSynced(true);
         mDatabase.child("users").child("notification").addValueEventListener(new ValueEventListener() {
@@ -103,6 +108,7 @@ public class NotificationFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         recyclerView.addOnItemTouchListener(new NotificationFragment.RecyclerTouchListener(getContext(), recyclerView, new TaskFragment.ClickListener() {
             @Override

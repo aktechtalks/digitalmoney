@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -24,11 +23,10 @@ import android.widget.Toast;
 
 import com.digitalmoney.home.R;
 import com.digitalmoney.home.fragments.AdminFragment;
-import com.digitalmoney.home.fragments.EarnFragment;
 import com.digitalmoney.home.fragments.NotificationFragment;
 import com.digitalmoney.home.fragments.OfferFragment;
 import com.digitalmoney.home.fragments.PlanFragment;
-import com.digitalmoney.home.fragments.ShareFragment;
+import com.digitalmoney.home.fragments.ReferralFragment;
 import com.digitalmoney.home.fragments.TaskFragment;
 import com.digitalmoney.home.fragments.WalletFragment;
 import com.digitalmoney.home.models.User;
@@ -45,7 +43,7 @@ import java.util.List;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_BOLD;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_REGULAR;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Typeface typeface;
     private TextView tvUserReferralCode;
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new WalletFragment();
                 break;
             case R.id.nav_referral:
-                fragment = new ShareFragment();
+                fragment = new ReferralFragment();
                 break;
             case R.id.nav_offer:
                 fragment = new OfferFragment();
@@ -247,10 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         displaySelectedScreen(item.getItemId());
         return true;
-    }
-
-    public void setActionBarTitle(String title){
-        toolbar.setTitle(title);
     }
 
 }

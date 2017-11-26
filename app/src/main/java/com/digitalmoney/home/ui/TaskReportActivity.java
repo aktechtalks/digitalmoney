@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.Utility.Utils;
 import com.digitalmoney.home.Utility.VideoBanner;
 import com.digitalmoney.home.models.TaskCounterModel;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,64 +32,105 @@ import static com.digitalmoney.home.Utility.Utils.PREF_KEY_TOTAL_IMPRESSION;
 
 public class TaskReportActivity extends BaseActivity {
 
-    private static final String TAG = TaskReportActivity.class.getSimpleName();
-    private String                    taskTitle;
-    private TextView                  tvTotalCounter;
-    private TextView                  tvSuccessImpressionCounter;
-    private TextView                  tvInstallCounter;
-    private TextView                  tvSuccessInstallCounter;
-    private AppCompatButton           btnInstall;
-    private DatabaseReference         mDatabase;
+    private final String TAG   = TaskReportActivity.class.getSimpleName();
+    private String             taskTitle;
+    private TextView           tvTotalCounter;
+    private TextView           tvSuccessImpressionCounter;
+    private TextView           tvInstallCounter;
+    private TextView           tvSuccessInstallCounter;
+    private AppCompatButton    btnInstall;
+    private DatabaseReference  mDatabase;
+    private AdView             mAdViewTop;
+    private AdRequest          mAdRequest;
+    private AdView             mAdViewBottom;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_counter);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         initUI();
+        loadNewBannerAd();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                TaskCounterModel counter = dataSnapshot.child("users").child(user.getUid()).child("taskCounter").getValue(TaskCounterModel.class);
-
-                if (counter!=null){
-
-          /*        String installCount = counter.getInstallCount();
-                    String successImpression = counter.getSuccessInpression();
-                    String successInstall = counter.getSuccessInstall();
-                    String totalImpression = counter.getTotalInpression();
-
-                    tvTotalCounter.setText(installCount);
-                    tvSuccessImpressionCounter.setText(installCount);
-                    tvTotalCounter.setText(installCount);
-                    tvTotalCounter.setText(installCount);*/
-
-           /*         Log.e("installCount",installCount);
-                    Log.e("successImpression",successImpression);
-                    Log.e("successInstall",successInstall);
-                    Log.e("totalImpression",totalImpression);*/
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Error:-->", "loadPost:onCancelled", databaseError.toException());
-                Toast.makeText(getApplicationContext(), databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
-            }
-        });
     }
 
 
 
+    private void loadNewBannerAd() {
+
+        mAdViewBottom.loadAd(mAdRequest);
+        mAdViewTop.loadAd(mAdRequest);
+
+        mAdViewTop.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
+
+        mAdViewBottom.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
+
+    }
+
+
     private void initUI(){
 
-        Toolbar toolbar                = (Toolbar) findViewById(R.id.toolbar);
+        mAdViewTop                     = (AdView)   findViewById(R.id.adViewShareTop);
+        mAdViewBottom                  = (AdView)   findViewById(R.id.adViewShareBottom);
+        mAdRequest                     = new AdRequest.Builder().build();
+        Toolbar toolbar                = (Toolbar)  findViewById(R.id.toolbar);
         TextView tvTotalImpression     = (TextView) findViewById(R.id.tvTotalImpression);
         tvTotalCounter                 = (TextView) findViewById(R.id.tvTotalCounter);
         TextView tvSuccessImpression   = (TextView) findViewById(R.id.tvSuccessImpression);
@@ -96,10 +142,9 @@ public class TaskReportActivity extends BaseActivity {
         btnInstall                     = (AppCompatButton) findViewById(R.id.btnInstall);
         taskTitle                      = getIntent().getStringExtra("taskTitle");
 
-
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(taskTitle);
+        SpannableString fragTitle = Utils.setSpannableString(getApplicationContext(), taskTitle, Utils.TYPEFACE_LARGE);
+        getSupportActionBar().setTitle(fragTitle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         applyBoldFont(tvSuccessImpression);
@@ -120,12 +165,84 @@ public class TaskReportActivity extends BaseActivity {
 
     private void setInstallCounter() {
 
-        String success_impression = getLocale(getApplicationContext(), PREF_KEY_TOTAL_IMPRESSION);
-        getLocale(getApplicationContext(), PREF_KEY_SUCCESS_IMPRESSION);
-        getLocale(getApplicationContext(), PREF_KEY_INSTALL);
-        getLocale(getApplicationContext(), PREF_KEY_SUCCESS_INSTALL);
-        tvTotalCounter.setText("15");
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        String totalImpression = getLocale(getApplicationContext(), PREF_KEY_TOTAL_IMPRESSION+taskTitle);
+        String success_impression = getLocale(getApplicationContext(), PREF_KEY_SUCCESS_IMPRESSION+taskTitle);
+        String installCount = getLocale(getApplicationContext(), PREF_KEY_INSTALL+taskTitle);
+        String successInstallCount = getLocale(getApplicationContext(), PREF_KEY_SUCCESS_INSTALL+taskTitle);
+
+        tvTotalCounter.setText(Utils.TOTAL_IMPRESSION);
+
         tvSuccessImpressionCounter.setText(success_impression);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object impressionCount = dataSnapshot.child("users").child(uid).child("success_impression"+taskTitle).getValue();
+
+                if (impressionCount!=null){
+                    Log.e("success_impression:::",impressionCount.toString());
+                    tvSuccessImpressionCounter.setText(impressionCount.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error:-->",
+                        "success impression could not update", databaseError.toException());
+            }
+        });
+
+
+
+
+
+        //add from local storage
+        tvInstallCounter.setText(installCount);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object installCount = dataSnapshot.child("users").child(uid).child("install_count"+taskTitle).getValue();
+
+                if (installCount!=null){
+                    Log.e("success_impression:::",installCount.toString());
+                    tvInstallCounter.setText(installCount.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error:-->",
+                        "success impression could not update", databaseError.toException());
+            }
+        });
+
+
+
+
+        //add from local storage
+        tvSuccessInstallCounter.setText(successInstallCount);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object success_install_count = dataSnapshot.child("users").child(uid).child("successInstallCount"+taskTitle).getValue();
+
+                if (success_install_count!=null){
+                    Log.e("success_impression:::",success_install_count.toString());
+                    tvSuccessInstallCounter.setText(success_install_count.toString());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error:-->",
+                        "success impression could not update", databaseError.toException());
+            }
+        });
+
+
+
 
     }
 
@@ -137,7 +254,9 @@ public class TaskReportActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intentVideoBanner = new Intent(TaskReportActivity.this, InterstitialActivity.class);
+                Intent intentVideoBanner =
+                        new Intent(TaskReportActivity.this,
+                        InterstitialActivity.class);
                 intentVideoBanner.putExtra("taskTitle", taskTitle);
                 startActivity(intentVideoBanner);
 

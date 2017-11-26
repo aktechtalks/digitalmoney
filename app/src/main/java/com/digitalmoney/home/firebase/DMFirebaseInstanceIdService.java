@@ -13,9 +13,9 @@ import static com.digitalmoney.home.Utility.Utils.FIREBASE_TOKEN;
  * Created by shailesh on 13/11/17.
  */
 
-public class NewsFirebaseInstanceIdService extends FirebaseInstanceIdService {
+public class DMFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
-    private String TAG = NewsFirebaseInstanceIdService.class.getSimpleName();
+    private String TAG = DMFirebaseInstanceIdService.class.getSimpleName();
 
     @Override
     public void onTokenRefresh() {

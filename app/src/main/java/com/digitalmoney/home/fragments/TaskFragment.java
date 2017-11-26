@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.Utility.TypefaceSpan;
+import com.digitalmoney.home.Utility.Utils;
+import com.digitalmoney.home.ui.BaseActivity;
 import com.digitalmoney.home.ui.TaskReportActivity;
 import com.digitalmoney.home.adapters.TaskAdapter;
 import com.digitalmoney.home.models.Task;
@@ -33,6 +38,12 @@ public class TaskFragment extends Fragment {
     private RecyclerView recyclerView;
     private TaskAdapter mAdapter;
 
+    protected SpannableString setSpannableString(String titleString, String typefaceName){
+        SpannableString spannableText = new SpannableString(titleString);
+        spannableText.setSpan(new TypefaceSpan(getContext(), typefaceName), 0, spannableText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableText;
+    }
+
 
     public TaskFragment() {
     }
@@ -43,10 +54,16 @@ public class TaskFragment extends Fragment {
         return view;
     }
 
+
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getResources().getString(R.string.title_today_task));
+
+
+        SpannableString fragTitle = Utils.setSpannableString(getContext(),
+                getResources().getString(R.string.title_today_task), Utils.TYPEFACE_LARGE);
+        getActivity().setTitle(fragTitle);
     }
 
 
@@ -62,9 +79,10 @@ public class TaskFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 Task movie = taskList.get(position);
-                Snackbar.make(view,movie.getTaskName() + " is selected!",Snackbar.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(getContext(), TaskReportActivity.class);
                 intent.putExtra("taskTitle", movie.getTaskName().toString());
+                intent.putExtra("POSITION", String.valueOf(position));
                 startActivity(intent);
             }
             @Override

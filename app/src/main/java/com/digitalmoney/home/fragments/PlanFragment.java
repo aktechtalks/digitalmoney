@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.Utility.Utils;
 import com.digitalmoney.home.adapters.PlanAdapter;
 import com.digitalmoney.home.models.PlanModel;
 
@@ -44,7 +46,10 @@ public class PlanFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getResources().getString(R.string.title_plan));
+
+        SpannableString fragTitle = Utils.setSpannableString(getContext(),
+                getResources().getString(R.string.title_plan), Utils.TYPEFACE_LARGE);
+        getActivity().setTitle(fragTitle);
     }
 
 

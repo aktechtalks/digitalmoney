@@ -8,15 +8,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.models.User;
 import com.digitalmoney.home.ui.RedeemActivity;
 import com.digitalmoney.home.Utility.Utils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +37,13 @@ import java.util.List;
 
 public class WalletFragment extends Fragment {
 
-    TextView tvWalletTag, tvWalletAmount;
-    Button btnRedeem;
-    ViewPager pagerWallet;
-    TabLayout tabLayout;
-    Typeface typefaceBold;
-    Typeface typefaceLarge;
+    private TextView          tvWalletTag, tvWalletAmount;
+    private Button            btnRedeem;
+    private ViewPager         pagerWallet;
+    private TabLayout         tabLayout;
+    private Typeface          typefaceBold;
+    private Typeface          typefaceLarge;
+    private DatabaseReference mDatabase;
 
 
     public WalletFragment() {
@@ -47,11 +58,15 @@ public class WalletFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle(getResources().getString(R.string.title_wallet));
+
+        SpannableString fragTitle = Utils.setSpannableString(getContext(),
+                getResources().getString(R.string.title_wallet), Utils.TYPEFACE_LARGE);
+        getActivity().setTitle(fragTitle);
     }
 
 
     private void initUI(View view){
+
         tvWalletTag = (TextView) view.findViewById(R.id.tvWallet);
         tvWalletAmount = (TextView) view.findViewById(R.id.tvWalletMoney);
         btnRedeem = (Button) view.findViewById(R.id.btnRedeem);
@@ -63,6 +78,32 @@ public class WalletFragment extends Fragment {
         tvWalletTag.setTypeface(typefaceLarge);
         tvWalletAmount.setTypeface(typefaceBold);
         btnRedeem.setTypeface(typefaceBold);
+
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object wallet = dataSnapshot.child("users").child(uid).child("wallet_money").getValue();
+
+                if (wallet!=null){
+                    Log.e("wallet_money::::::",wallet.toString());
+                    tvWalletAmount.setText("₹ "+wallet.toString());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("Error:-->", "loadPost:onCancelled", databaseError.toException());
+                Toast.makeText(getContext(), databaseError.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
 
 
         btnRedeem.setOnClickListener(new View.OnClickListener() {

@@ -14,9 +14,9 @@ import com.google.firebase.messaging.RemoteMessage;
  * Created by shailesh on 13/11/17.
  */
 
-public class NewsFMService extends FirebaseMessagingService {
+public class DMFirebaseMessagingService extends FirebaseMessagingService {
 
-    private String TAG = NewsFMService.class.getSimpleName();
+    private String TAG = DMFirebaseMessagingService.class.getSimpleName();
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {

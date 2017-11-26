@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout_interstial"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:backgroundColor="@android:color/white"
+    tools:context="com.digitalmoney.home.ui.InterstitialActivity">
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewShareTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="350sp"
+        android:id="@+id/app_title"
+        android:layout_marginTop="55sp">
+
+        <com.igalata.bubblepicker.rendering.BubblePicker
+            android:id="@+id/picker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+
+
+    <Button
+        android:id="@+id/next_level_button"
+        android:layout_width="wrap_content"
+        android:layout_height="45sp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/app_title"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorGreen"
+        android:padding="15sp"
+        android:background="@drawable/rounded_button"
+        android:layout_marginTop="20dp"
+        android:text="@string/next_level" />
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewShareBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        ads:adSize="BANNER"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>

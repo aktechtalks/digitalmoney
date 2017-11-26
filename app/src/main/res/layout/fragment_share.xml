@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,21 +8,21 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_background"
             android:orientation="vertical">
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adViewShareTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="25sp"
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id">
             </com.google.android.gms.ads.AdView>
@@ -58,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="@dimen/activity_horizontal_margin"
+                        android:textColor="@color/colorWhite"
                         android:layout_marginBottom="@dimen/activity_horizontal_margin"
                         android:text="@string/label_referral_code"
                         android:textAppearance="?android:textAppearanceMedium" />
@@ -74,15 +75,6 @@
 
                 </RelativeLayout>
 
-
-                <com.ramotion.circlemenu.CircleMenuView
-                    android:id="@+id/circle_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:button_colors="@array/colors"
-                    app:button_icons="@array/icons"/>
-
             </LinearLayout>
 
 
@@ -90,14 +82,34 @@
                 android:id="@+id/adViewShareBottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="25sp"
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id">
             </com.google.android.gms.ads.AdView>
 
-
-
         </LinearLayout>
+
     </ScrollView>
 
-</LinearLayout>
+    <com.ramotion.circlemenu.CircleMenuView
+        android:id="@+id/circle_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/colorPrimaryDark"
+        app:button_colors="@array/color_picker"
+        android:layout_centerInParent="true"
+        app:button_icons="@array/icons"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatBtnShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        ads:srcCompat="?android:attr/actionModeShareDrawable" />
+
+</RelativeLayout>

@@ -3,12 +3,15 @@ package com.digitalmoney.home.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.Utility.TypefaceSpan;
+import com.digitalmoney.home.Utility.Utils;
 import com.digitalmoney.home.admin.AdminNotification;
 
 /**
@@ -35,7 +38,10 @@ public class AdminFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         btnClickHandler();
-        getActivity().setTitle(getResources().getString(R.string.title_admin));
+        SpannableString fragTitle = Utils.setSpannableString(getContext(), getResources().getString(R.string.title_admin), Utils.TYPEFACE_LARGE);
+        getActivity().setTitle(fragTitle);
+
+
     }
 
 

@@ -5,11 +5,14 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
+import com.digitalmoney.home.Utility.TypefaceSpan;
 import com.digitalmoney.home.Utility.Utils;
 import com.digitalmoney.home.admin.AdminNotification;
 import com.digitalmoney.home.models.Task;
@@ -37,7 +40,6 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -83,5 +85,11 @@ public class BaseActivity extends AppCompatActivity{
     }
 
 
+
+    protected SpannableString setSpannableString(String titleString, String typefaceName){
+        SpannableString spannableText = new SpannableString(titleString);
+        spannableText.setSpan(new TypefaceSpan(this, typefaceName), 0, spannableText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableText;
+    }
 
 }

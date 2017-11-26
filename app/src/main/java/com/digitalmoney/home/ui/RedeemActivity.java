@@ -111,7 +111,7 @@ public class RedeemActivity extends BaseActivity {
 
                 if (wallet!=null){
                     Log.e("wallet_money::::::",wallet.toString());
-                    tvWalletMoney.setText(wallet.toString());
+                    tvWalletMoney.setText("₹ "+wallet.toString());
                 }
 
             }
