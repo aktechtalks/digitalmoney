@@ -68,6 +68,28 @@
                     android:background="@drawable/white_border_background"
                     android:text="@string/title_login"/>
 
+
+
+                <TextView
+                    android:id="@+id/tvDoNotUserAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/colorWhite"
+                    android:layout_gravity="center"
+                    android:textAllCaps="true"
+                    android:text="@string/do_not_have_user_account"/>
+
+
+                <Button
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@drawable/white_border_background"
+                    android:text="@string/signUp"/>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

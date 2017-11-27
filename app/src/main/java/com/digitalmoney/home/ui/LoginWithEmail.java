@@ -30,24 +30,34 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginWithEmail extends BaseActivity {
 
 
-    private static final String TAG = LoginWithEmail.class.getSimpleName();
-    private EditText et_password, etEmailId;
-    private Button btnLogin;
-    private ProgressBar progressBar;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    private final String  TAG =
+            LoginWithEmail.class.getSimpleName();
+    private EditText      et_password;
+    private EditText      etEmailId;
+    private Button        btnLogin;
+    private ProgressBar   progressBar;
+    private FirebaseAuth  mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_with_email);
 
-        mAuth = FirebaseAuth.getInstance();
+        initUI();
+
+    }
+
+    private void initUI() {
+
+        mAuth       = FirebaseAuth.getInstance();
         et_password = (EditText) findViewById(R.id.et_password);
-        etEmailId = (EditText) findViewById(R.id.et_emailId);
-        btnLogin = (Button) findViewById(R.id.btnLogin);
+        etEmailId   = (EditText) findViewById(R.id.et_emailId);
+        btnLogin    = (Button) findViewById(R.id.btnLogin);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
+
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,33 +78,41 @@ public class LoginWithEmail extends BaseActivity {
                 }
             }
         });
+
+
+        findViewById(R.id.btnSignUp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+                finish();
+            }
+        });
+
     }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI();
     }
 
 
     private void validateLoginWithFirebase(String email, String password) {
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            Log.d(TAG, "login:successful");
+                            updateUI();
                         } else {
 
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginWithEmail.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            Log.e(TAG, "login:failed::"+task.getException());
+                            Toast.makeText(LoginWithEmail.this,
+                                    showError(task.getException().toString()), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -104,60 +122,22 @@ public class LoginWithEmail extends BaseActivity {
 
 
 
-    private void checkIfProfileExists(){
+    private String showError(String exceptionString){
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        String user_id = mAuth.getCurrentUser().getUid();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
+        String[] errorException = exceptionString.split(":");
+        String rightStringMsg = errorException[1];
 
-            Uri photoUrl = user.getPhotoUrl();
-            boolean emailVerified = user.isEmailVerified();
-            String uid = user.getUid();
-
-            Log.e("uid: ", uid);
-            Log.e("photoUrl: ", ""+photoUrl);
-            Log.e("isEmail Verified: ", ""+emailVerified);
-        }
-
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User profile = dataSnapshot.child("users").child(user_id).child("profile").getValue(User.class);
-                progressBar.setVisibility(View.GONE);
-                if (profile!=null){
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else
-                {
-                    Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("Error:-->", "loadPost:onCancelled", databaseError.toException());
-                Toast.makeText(getApplicationContext(), databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
-            }
-        });
+        return rightStringMsg;
     }
 
 
 
+    private void updateUI() {
 
-
-    private void updateUI(FirebaseUser user) {
-
-        if (user != null){
-            checkIfProfileExists();
-            //startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            //finish();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
         }
     }
 }

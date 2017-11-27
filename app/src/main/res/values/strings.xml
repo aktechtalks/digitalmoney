@@ -14,7 +14,7 @@
     <string name="action_settings">Settings</string>
     <string name="mobile">Mobile number</string>
     <string name="new_here">New here?</string>
-    <string name="signUp">Signup</string>
+    <string name="signUp">SignUp</string>
     <string name="signup_label">Sign Up</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="already_member">Already member?</string>
@@ -150,6 +150,11 @@
     <string name="banner_ad_unit_id">ca-app-pub-1594372409902675/8010402569</string>
     <string name= "banner_ad_app_name">digital money banner ad id</string>
     <string name="next_level">Next</string>
+    <string name="invitation_deep_link">https://dgitalmoney.com/welcome</string>
+    <string name="invitation_custom_image">http://www.italypokerdeals.com/images/skrill-send-money.png</string>
+    <string name="provide_valid_email">Provide a valid email</string>
+    <string name="register">Register</string>
+    <string name="do_not_have_user_account">Don\'t have user account</string>
 
 
 </resources>

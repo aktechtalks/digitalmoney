@@ -1,139 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     tools:context="com.digitalmoney.home.ui.RegistrationActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:background="@drawable/circle_background"
-      android:layout_margin="20sp"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvTAG"
-            android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/activity_horizontal_margin"
             android:layout_gravity="center"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:text="@string/provide_detail"/>
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:hint="@string/name"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite"
-            android:inputType="textCapWords"
-            android:drawableLeft="@drawable/ic_person_black_24dp"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-            android:background="@drawable/circle_background"/>
-
-        <EditText
-            android:id="@+id/et_emailId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:hint="@string/email"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite"
-            android:inputType="textEmailAddress"
-            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:drawableLeft="@drawable/ic_email_black_24dp"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-            android:background="@drawable/circle_background"/>
-
-        <EditText
-            android:id="@+id/et_mobile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:hint="@string/mobile"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite"
-            android:inputType="phone"
-            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-            android:background="@drawable/circle_background"/>
-
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:hint="@string/password"
-            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite"
-            android:inputType="textPassword"
-            android:drawableLeft="@drawable/ic_https_black"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-            android:background="@drawable/circle_background"/>
-
-        <EditText
-            android:id="@+id/et_confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorWhite"
-            android:drawableLeft="@drawable/ic_https_black"
-            android:drawablePadding="@dimen/activity_horizontal_margin"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:background="@drawable/circle_background"/>
-
-        <Button
-            android:id="@+id/btnSignUp"
-            android:layout_width="150sp"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:layout_gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="?android:textAppearanceMedium"
             android:background="@drawable/circle_background"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:textStyle="bold"
-            android:text="@string/save"/>
+            android:layout_margin="20sp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvAlreadyAccount"
-            android:layout_width="150sp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:text="@string/already_member"/>
+            <TextView
+                android:id="@+id/tvTAG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold"
+                android:text="@string/signUp"/>
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:hint="@string/name"
+                android:maxLength="20"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:inputType="textCapWords"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
+                android:background="@drawable/circle_background"/>
+
+            <EditText
+                android:id="@+id/et_emailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:hint="@string/email"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
+                android:background="@drawable/circle_background"/>
+
+            <EditText
+                android:id="@+id/et_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:hint="@string/mobile"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:drawableLeft="@drawable/ic_phone"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
+                android:background="@drawable/circle_background"/>
 
 
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:background="@drawable/circle_background"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:text="@string/login_here"/>
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:hint="@string/password"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_https_black"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
+                android:background="@drawable/circle_background"/>
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/et_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:drawableLeft="@drawable/ic_https_black"
+                android:drawablePadding="@dimen/activity_horizontal_margin"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:background="@drawable/circle_background"/>
+
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:layout_gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:background="@drawable/circle_background"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:text="@string/register"/>
+
+            <TextView
+                android:id="@+id/tvAlreadyAccount"
+                android:layout_width="150sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:text="@string/already_member"/>
+
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:textAllCaps="true"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:background="@drawable/circle_background"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:text="@string/login_here"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
     <ProgressBar
         android:id="@+id/validate_progressbar"

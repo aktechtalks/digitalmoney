@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -22,15 +23,19 @@ import com.digitalmoney.home.Utility.VideoBanner;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.digitalmoney.home.R;
+import com.google.android.gms.appinvite.AppInviteInvitation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.ramotion.circlemenu.CircleMenuView;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_BOLD;
 import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_LARGE;
 
-/**
- * Created by shailesh on 6/11/17.
- */
+
 
 public class ReferralFragment extends Fragment {
 
@@ -41,6 +46,8 @@ public class ReferralFragment extends Fragment {
     private AdView         mAdViewTop, mAdViewBottom;
     private CircleMenuView menu ;
     private FloatingActionButton floatBtnShare;
+    private String TAG = ReferralFragment.class.getSimpleName();
+    private int REQUEST_INVITE = 101;
 
 
     public ReferralFragment() {
@@ -50,6 +57,7 @@ public class ReferralFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view       = inflater.inflate(R.layout.fragment_share, container, false);
+
         typefaceBold    = Typeface.createFromAsset(getContext().getAssets(), TYPEFACE_PATH_BOLD);
         typefaceLarge   = Typeface.createFromAsset(getContext().getAssets(), TYPEFACE_PATH_LARGE);
         tvTagline       = (TextView) view.findViewById(R.id.tvTagline);
@@ -61,6 +69,7 @@ public class ReferralFragment extends Fragment {
         floatBtnShare   = (FloatingActionButton) view.findViewById(R.id.floatBtnShare);
         AdRequest adRequest = new AdRequest.Builder().build();
 
+        initialiseDynamicLink();
 
         tvTagline.setTypeface(typefaceLarge);
         tvReferalCode.setTypeface(typefaceBold);
@@ -70,6 +79,40 @@ public class ReferralFragment extends Fragment {
         clickHandler();
         return view;
     }
+
+
+
+
+
+    private void initialiseDynamicLink(){
+
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getActivity().getIntent())
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                            Log.e(TAG, deepLink.toString());
+                        }
+
+                        // Handle the deep link. For example, open the linked
+                        // content, or apply promotional credit to the user's
+                        // account.
+                        // ...
+                    }
+                })
+                .addOnFailureListener(getActivity(), new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "getDynamicLink:onFailure", e);
+                    }
+                });
+    }
+
+
 
 
 
@@ -111,7 +154,9 @@ public class ReferralFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 copy();
-                showVideoBanner();
+                onInviteClicked();
+
+                //showVideoBanner();
             }
         });
 
@@ -132,6 +177,45 @@ public class ReferralFragment extends Fragment {
 
 
     }
+
+
+
+
+
+    private void onInviteClicked() {
+
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.app_name))
+                .setMessage("please install digital money application")
+                .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+                .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                //.setCallToActionText(getString(R.string.invitation_cta))
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+    }
+
+
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
+
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+            } else {
+
+            }
+        }
+    }
+
+
 
 
 

@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }else {
 //                  startActivity(new Intent(SplashActivity.this, LoginWithMobile.class));
-                    startActivity(new Intent(SplashActivity.this, LoginOption.class));
+                    startActivity(new Intent(SplashActivity.this, LoginWithEmail.class));
                     finish();
                 }
             }
