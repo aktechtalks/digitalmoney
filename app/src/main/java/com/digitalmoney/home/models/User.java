@@ -12,17 +12,27 @@ public class User {
     private String userMobileno;
     private String userPassword;
 
+    public String getReferral_code() {
+        return referral_code;
+    }
+
+    public void setReferral_code(String referral_code) {
+        this.referral_code = referral_code;
+    }
+
+    private String referral_code;
+
     public User() {
     }
 
-    public User(String userAuth, String userName, String userEmail, String userMobileno, String userPassword) {
+    public User(String userAuth, String userName, String userEmail, String userMobileno, String userPassword, String referral_code) {
         this.userAuth = userAuth;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userMobileno = userMobileno;
         this.userPassword = userPassword;
+        this.referral_code = referral_code;
     }
-
 
     public String getUserAuth() {
         return userAuth;
@@ -64,6 +74,7 @@ public class User {
         this.userPassword = userPassword;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
@@ -72,6 +83,7 @@ public class User {
                 ", userEmail='" + userEmail + '\'' +
                 ", userMobileno='" + userMobileno + '\'' +
                 ", userPassword='" + userPassword + '\'' +
+                ", referral_code='" + referral_code + '\'' +
                 '}';
     }
 }

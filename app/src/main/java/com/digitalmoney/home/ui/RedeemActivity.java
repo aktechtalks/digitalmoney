@@ -58,7 +58,7 @@ public class RedeemActivity extends BaseActivity {
 
 
     private void initUI(){
-        mDatabase            = FirebaseDatabase.getInstance().getReference();
+        mDatabase       = FirebaseDatabase.getInstance().getReference();
         typefaceBold    = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_BOLD);
         typefaceLarge   = Typeface.createFromAsset(getAssets(), Utils.TYPEFACE_PATH_LARGE);
         toolbar         = (Toolbar) findViewById(R.id.toolbar);

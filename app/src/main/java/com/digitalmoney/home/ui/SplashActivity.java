@@ -33,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
                 }else {
-//                  startActivity(new Intent(SplashActivity.this, LoginWithMobile.class));
                     startActivity(new Intent(SplashActivity.this, LoginWithEmail.class));
                     finish();
                 }
@@ -49,9 +48,7 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;

@@ -13,11 +13,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +29,7 @@ import com.digitalmoney.home.fragments.ReferralFragment;
 import com.digitalmoney.home.fragments.TaskFragment;
 import com.digitalmoney.home.fragments.WalletFragment;
 import com.digitalmoney.home.models.User;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,34 +45,24 @@ import static com.digitalmoney.home.Utility.Utils.TYPEFACE_PATH_REGULAR;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Typeface typeface;
-    private TextView tvUserReferralCode;
-    private TextView tvUserName;
-    private DrawerLayout drawer;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private FirebaseAuth mAuth;
+    private Typeface          typeface;
+    private TextView          tvUserReferralCode;
+    private TextView          tvUserName;
+    private DrawerLayout      drawer;
+    private Toolbar           toolbar;
+    private ImageView         btnEditProfile;
+    private NavigationView    navigationView;
+    private FirebaseAuth      mAuth;
     private DatabaseReference mDatabase;
-    private String user_id;
+    private String            user_id;
+    private int               REQUEST_INVITE = 101;
+    private String            referralCode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        user_id = mAuth.getCurrentUser().getUid();
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle); toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         initUI();
 
@@ -82,23 +72,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void initUI() {
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        user_id = mAuth.getCurrentUser().getUid();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle); toggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_PATH_REGULAR);
         View header = navigationView.getHeaderView(0);
         tvUserName = (TextView) header.findViewById(R.id.tvUserName);
+        btnEditProfile = (ImageView) header.findViewById(R.id.btnEditProfile);
+
         tvUserReferralCode = (TextView) header.findViewById(R.id.tvUserReferralCode);
         tvUserName.setTypeface(typeface);
         Typeface typefaceBold = Typeface.createFromAsset(getAssets(), TYPEFACE_PATH_BOLD);
         tvUserReferralCode.setTypeface(typefaceBold);
 
-        tvUserName.setText("#####");
-        tvUserReferralCode.setText("#####");
+        tvUserName.setText("####");
+        tvUserReferralCode.setText("####");
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-
-            Uri photoUrl = user.getPhotoUrl();
-            boolean emailVerified = user.isEmailVerified();
-            String uid = user.getUid();
+            String userName = user.getDisplayName();
+            tvUserName.setText(userName);
+            settingProfile();
         }
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -107,19 +111,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 User profile = dataSnapshot.child("users").child(user.getUid()).child("profile").getValue(User.class);
 
                 if (profile!=null){
-                    String mobile_number = profile.getUserMobileno();
-                    String user_name = profile.getUserName();
-                    tvUserName.setText(user_name);
-                    tvUserReferralCode.setText(mobile_number);
+                    referralCode = profile.getReferral_code();
+                    tvUserReferralCode.setText(referralCode);
                 }
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("Error:-->", "loadPost:onCancelled", databaseError.toException());
-                Toast.makeText(getApplicationContext(), databaseError.getMessage(),Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(),
+                        databaseError.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -137,21 +138,37 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    private void settingProfile(){
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                }
+                startActivity(new Intent(getApplicationContext(), SettingActivity.class));
+            }
+        });
     }
 
 
-    @Override
+
+
+/*    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }*/
+
+
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
     private void displaySelectedScreen(int itemId) {
@@ -233,12 +250,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void shareApplication() {
 
-        Toast.makeText(this, "Share with friends", Toast.LENGTH_SHORT).show();
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setType("text/html");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("<p> Your digital money has referal code.</p>"));
-        startActivity(Intent.createChooser(sharingIntent,"Share using"));
+        Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.app_name))
+                .setMessage(getResources().getString(R.string.invite_title_message)+"-"+referralCode)
+                .setDeepLink(Uri.parse(getString(R.string.invitation_deep_link)))
+                .setCustomImage(Uri.parse(getString(R.string.invitation_custom_image)))
+                //.setCallToActionText(getString(R.string.invitation_cta))
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+
+//        Toast.makeText(this, "Share with friends", Toast.LENGTH_SHORT).show();
+//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+//        sharingIntent.setType("text/html");
+//        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("<p> Your digital money has referal code.</p>"));
+//        startActivity(Intent.createChooser(sharingIntent,"Share using"));
     }
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")

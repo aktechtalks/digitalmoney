@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.digitalmoney.home.ui.SettingActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@color/colorWhite"
+        android:background="@color/colorPrimary"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/profile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="330sp"
+                        android:background="@color/colorPrimary">
+
+                        <ImageView
+                            android:id="@+id/pickProfilePhoto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignEnd="@+id/profile_image"
+                            android:layout_alignTop="@+id/profile_image"
+                            android:background="@drawable/ic_camera_alt_black_24dp" />
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profile_image"
+                            android:layout_width="130dp"
+                            android:layout_height="130dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="25dp"
+                            android:src="@drawable/ic_admin"
+                            app:civ_border_color="#FF000000"
+                            app:civ_border_width="2dp" />
+
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:orientation="vertical"
+                            android:layout_below="@+id/profile_image"
+                            android:padding="@dimen/activity_vertical_margin">
+
+                            <Button
+                                android:id="@+id/tv_edit_profile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="UPDATE PROFILE"
+                                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                                android:background="@drawable/btn_white_circle"
+                                android:textAppearance="?android:textAppearanceSmall"/>
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                                android:text="MAIL US"
+                                android:background="@drawable/btn_white_circle"
+                                android:textAppearance="?android:textAppearanceSmall"/>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/grey_300"
+                        android:paddingBottom="@dimen/nav_header_vertical_spacing"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/nav_header_vertical_spacing"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:text="Contact Information"
+                        android:textColor="@color/colorBlack" />
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_mail_black_24dp"
+                        android:drawablePadding="@dimen/nav_header_vertical_spacing"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="@string/not_available"
+                        android:textColor="@color/colorBlack" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:background="@color/grey_300" />
+
+                    <TextView
+                        android:id="@+id/tvMobNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_phone_iphone_black_24dp"
+                        android:drawablePadding="@dimen/nav_header_vertical_spacing"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="@string/not_available"
+                        android:textColor="@color/colorBlack" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:background="@color/grey_300" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_admin"
+                        android:drawablePadding="@dimen/nav_header_vertical_spacing"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="@string/not_available"
+                        android:textColor="@color/colorBlack" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:background="@color/grey_300" />
+
+                    <TextView
+                        android:id="@+id/tvReferralCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_home"
+                        android:drawablePadding="@dimen/nav_header_vertical_spacing"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="@string/not_available"
+                        android:textColor="@color/colorBlack" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:background="@color/grey_300" />
+
+                </LinearLayout>
+
+
+            </ScrollView>
+
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_centerInParent="true" />
+
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_centerInParent="true" />
+
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+</LinearLayout>

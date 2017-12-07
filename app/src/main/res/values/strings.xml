@@ -43,7 +43,7 @@
     <string name="label_set_password">Set Password</string>
     <string name="label_create_password">CREATE PASSWORD</string>
     <string name="share_app">I found this best earning app which is give you maximum payment in short time. Join by my referral code : 500059</string>
-    <string name="referral_code">referral code</string>
+    <string name="referral_code">Referral code</string>
     <string name="title_share">Share</string>
     <string name="title_earn_money">Earn Money</string>
     <string name="title_news">News</string>
@@ -148,13 +148,18 @@
     <string name="interstitial_ad_unit_id">ca-app-pub-1594372409902675/3925362484</string>
     <string name="interstitial_ad_unit_name">digital money Interstitial ad id</string>
     <string name="banner_ad_unit_id">ca-app-pub-1594372409902675/8010402569</string>
-    <string name= "banner_ad_app_name">digital money banner ad id</string>
+    <string name="banner_ad_app_name">digital money banner ad id</string>
     <string name="next_level">Next</string>
     <string name="invitation_deep_link">https://dgitalmoney.com/welcome</string>
     <string name="invitation_custom_image">http://www.italypokerdeals.com/images/skrill-send-money.png</string>
     <string name="provide_valid_email">Provide a valid email</string>
     <string name="register">Register</string>
     <string name="do_not_have_user_account">Don\'t have user account</string>
+    <string name="provide_referral_code">Provide referral code</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="invite_title_message">Just invited you to Install Digital Money. Join and earn free in your wallet- Install now</string>
+    <string name="address">Address</string>
+    <string name="not_available">Not available</string>
 
 
 </resources>

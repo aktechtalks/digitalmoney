@@ -22,7 +22,7 @@
             android:id="@+id/imageView"
             android:layout_width="120sp"
             android:layout_height="120sp"
-            android:background="@drawable/ic_task_icon"/>
+            android:background="@drawable/task_icon"/>
 
         <TextView
             android:id="@+id/title"

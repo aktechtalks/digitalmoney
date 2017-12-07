@@ -1,6 +1,6 @@
 package com.digitalmoney.home.ui;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -16,16 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.digitalmoney.home.R;
-import com.digitalmoney.home.Utility.Utils;
 import com.digitalmoney.home.models.LoginUser;
 import com.digitalmoney.home.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +37,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText           et_password;
     private EditText           et_confirm_password;
     private EditText           et_name, et_emailId, et_mobile;
+    private EditText           et_referral_code;
     private Typeface           typefaceBold, typefaceLarge;
     private ProgressBar        validate_progressbar;
     private FirebaseAuth       mAuth;
@@ -79,11 +77,14 @@ public class RegistrationActivity extends AppCompatActivity {
         et_confirm_password = (EditText) findViewById(R.id.et_confirm_password);
         tvTAG = (TextView) findViewById(R.id.tvTAG);
         validate_progressbar = (ProgressBar) findViewById(R.id.validate_progressbar);
+        et_referral_code = (EditText) findViewById(R.id.et_referral_code);
+
 
         btnSignUp.setTypeface(typefaceBold);
         btnLogin.setTypeface(typefaceBold);
         et_password.setTypeface(typefaceLarge);
         et_confirm_password.setTypeface(typefaceLarge);
+        et_referral_code.setTypeface(typefaceLarge);
         tvTAG.setTypeface(typefaceBold);
 
         buttonClickHandler();
@@ -99,11 +100,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 validate_progressbar.setVisibility(View.GONE);
 
-                String usrName = et_name.getText().toString().trim();
-                String emailId = et_emailId.getText().toString().trim();
-                String mobile = et_mobile.getText().toString().trim();
-                String password = et_password.getText().toString().trim();
+                String usrName          = et_name.getText().toString().trim();
+                String emailId          = et_emailId.getText().toString().trim();
+                String mobile           = et_mobile.getText().toString().trim();
+                String password         = et_password.getText().toString().trim();
                 String confirm_password = et_confirm_password.getText().toString().trim();
+                String referral_code    = et_referral_code.getText().toString().trim();
 
                 String photoUrl = "";
 
@@ -122,6 +124,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 } else if (mobile.length() != 10) {
                     et_mobile.requestFocus();
                     et_mobile.setError(getResources().getString(R.string.provide_valid_mobile));
+                }else if (referral_code.equalsIgnoreCase("")) {
+                    et_referral_code.requestFocus();
+                    et_referral_code.setError(getResources().getString(R.string.provide_referral_code));
                 } else if (password.equalsIgnoreCase("")) {
                     et_password.requestFocus();
                     et_password.setError(getResources().getString(R.string.provide_password));
@@ -130,7 +135,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     et_confirm_password.setError(getResources().getString(R.string.mismach_password));
                 } else {
 
-                    createUserInWithPhoneAuthCredential(emailId, password, usrName, photoUrl, mobile);
+                    createUserInWithPhoneAuthCredential(emailId, password, usrName, photoUrl, mobile, referral_code);
                 }
             }});
 
@@ -152,7 +157,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-    private void createUserInWithPhoneAuthCredential(String email, String password, String userName, String photoUrl, String mobile){
+    private void createUserInWithPhoneAuthCredential(String email, String password, String userName, String photoUrl, String mobile, String referral_code){
 
 
         validate_progressbar.setVisibility(View.VISIBLE);
@@ -172,7 +177,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             if (task.isSuccessful()){
 
                                 validate_progressbar.setVisibility(View.GONE);
-                                writeNewUser(userName, email, mobile, password);
+                                writeNewUser(userName, email, mobile, password, referral_code);
                                 Log.d(TAG, "User Profile Updated Successfully.");
 
                             }else {
@@ -207,11 +212,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
 
-    private void writeNewUser( String name, String email, String mobile, String password) {
+    private void writeNewUser( String name, String email, String mobile, String password, String referral_code) {
 
         String userUId = mAuth.getCurrentUser().getUid();
-        User userProfile = new User(userUId, name, email, mobile,password);
-        LoginUser userLogin = new LoginUser(mobile, password);
+        User userProfile = new User(userUId, name, email, mobile, password, referral_code);
+        LoginUser userLogin = new LoginUser(mobile, password, referral_code);
 
         mDatabase.child("users").child(userUId).child("login").setValue(userLogin);
         mDatabase.child("users").child(userUId).child("username").setValue(name);

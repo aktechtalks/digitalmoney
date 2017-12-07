@@ -55,6 +55,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
     private String uid =       FirebaseAuth.getInstance().getCurrentUser().getUid();
     private BubblePicker       picker;
     private RelativeLayout     main_layout;
+    private Boolean isAdClosed = false;
 
 
     @Override
@@ -152,7 +153,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
         mAdViewBottom.loadAd(mAdRequest);
         mAdViewTop.loadAd(mAdRequest);
 
-        mAdViewTop.setAdListener(new AdListener() {
+        /*mAdViewTop.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
@@ -180,7 +181,6 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
                 // to the app after tapping on an ad.
             }
         });
-
         mAdViewBottom.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -209,7 +209,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
                 // to the app after tapping on an ad.
             }
         });
-
+*/
     }
 
     private InterstitialAd newInterstitialAd() {
@@ -229,7 +229,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
                             mInterstitialAd.show();
                         }
                     }
-                }, 10000);
+                }, 5000);
                 Log.e("onAdLoaded::", "Success");
             }
 
@@ -278,6 +278,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
             @Override
             public void onAdOpened() {
                 super.onAdOpened();
+                isAdClosed = false;
                 Log.e("onAdOpened::", "Add is opened");
             }
 
@@ -299,14 +300,13 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
                         mNextLevelButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                increaseRevenue();
-                                onBackPressed();  //showRewardedVideo();
+                                goToBackPage();
                             }
                         });
-
-
                     }
                 },10000);
+
+                isAdClosed = true;
             }
 
 
@@ -315,13 +315,27 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
         return mInterstitialAd;
     }
 
+
+
+    private void goToBackPage() {
+
+        if (isAdClosed = false){
+            onBackPressed();
+        }else {
+            increaseRevenue();
+            onBackPressed();
+            //showRewardedVideo();
+        }
+
+
+    }
+
     private void increaseRevenue() {
 
         String getWalletMoney     = getLocale(this, Utils.WALLET_MONEY);
         double wallet_money       = Double.parseDouble(getWalletMoney);
         double current_revenue    = Utils.SUCCESS_IMPRESSION_REVENUE;
         String totalWalletMoney   = String.format("%.2f", (wallet_money+current_revenue));
-
 
 
         setLocale(this, Utils.WALLET_MONEY, totalWalletMoney);

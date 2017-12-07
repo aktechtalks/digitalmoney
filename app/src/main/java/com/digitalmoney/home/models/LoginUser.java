@@ -12,12 +12,23 @@ public class LoginUser {
 
     public String mobileno;
     public String password;
+    private String referralCode;
 
     public LoginUser() {}
 
-    public LoginUser(String mobileno, String password) {
-        this.mobileno =  mobileno;
+
+    public LoginUser(String mobileno, String password, String referralCode) {
+        this.mobileno = mobileno;
         this.password = password;
+        this.referralCode = referralCode;
+    }
+
+    public String getReferralCode() {
+        return referralCode;
+    }
+
+    public void setReferralCode(String referralCode) {
+        this.referralCode = referralCode;
     }
 
     public String getMobileno() {
@@ -41,6 +52,7 @@ public class LoginUser {
         return "LoginUser{" +
                 "mobileno='" + mobileno + '\'' +
                 ", password='" + password + '\'' +
+                ", referralCode='" + referralCode + '\'' +
                 '}';
     }
 }

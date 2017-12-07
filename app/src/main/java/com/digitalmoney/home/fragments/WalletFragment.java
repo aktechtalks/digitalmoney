@@ -59,8 +59,7 @@ public class WalletFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SpannableString fragTitle = Utils.setSpannableString(getContext(),
-                getResources().getString(R.string.title_wallet), Utils.TYPEFACE_LARGE);
+        SpannableString fragTitle = Utils.setSpannableString(getContext(), getResources().getString(R.string.title_wallet), Utils.TYPEFACE_LARGE);
         getActivity().setTitle(fragTitle);
     }
 
