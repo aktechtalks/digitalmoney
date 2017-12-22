@@ -23,7 +23,6 @@ android {
 }
 
 dependencies {
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -46,6 +45,7 @@ dependencies {
     implementation 'pl.bclogic:pulsator4droid:1.0.3'
     implementation 'com.github.igalata:Bubble-Picker:v0.2.4'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation files('libs/PGSDK_V2.1.jar')
 }
 
 

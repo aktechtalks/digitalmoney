@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background"
+    android:background="@drawable/splash"
     android:orientation="vertical"
     tools:context="com.digitalmoney.home.ui.RedeemActivity">
 
@@ -90,10 +90,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:cursorVisible="true"
+                        android:maxLength="10"
+                        android:backgroundTint="@color/colorPrimaryDark"
                         android:hint="@string/enter_paytm_mobile_number"
                         android:textColorHint="@color/colorBlack"
                         android:textColor="@color/colorBlack"
-                        android:background="@drawable/btn_white_circle"
+
                         android:paddingLeft="26sp"
                         android:padding="@dimen/activity_horizontal_margin"
                         android:textStyle="bold"
@@ -139,10 +142,11 @@
                         android:layout_height="45sp"
                         android:layout_margin="@dimen/activity_horizontal_margin"
                         android:text="@string/submit"
+                        android:textAllCaps="true"
                         android:textStyle="bold"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/colorWhite"
                         android:layout_marginTop="@dimen/activity_horizontal_margin"
-                        android:background="@drawable/btn_white_circle"
+                        android:background="@color/colorPrimary"
                         android:textAppearance="?android:textAppearanceMedium" />
 
                 </LinearLayout>

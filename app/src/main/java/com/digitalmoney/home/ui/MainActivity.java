@@ -13,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -257,17 +258,33 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 //.setCallToActionText(getString(R.string.invitation_cta))
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
+    }
 
-//        Toast.makeText(this, "Share with friends", Toast.LENGTH_SHORT).show();
-//        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-//        sharingIntent.setType("text/html");
-//        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml("<p> Your digital money has referal code.</p>"));
-//        startActivity(Intent.createChooser(sharingIntent,"Share using"));
+
+
+    private void referWithFriend(){
+
+        String referralMessageText = "Digital Application\n" +
+                "\n" +
+                "I am earning Paytm cash using Digital Money app.\n" +
+                "You can earn money for refer your friend and complete simple task\n" +
+                "\n" +
+                "Use My Referral code 60106 on signup\n" +
+                "\n" +
+                "Link: "+Uri.parse(getString(R.string.invitation_deep_link));
+
+
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/html");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, Html.fromHtml(referralMessageText));
+        startActivity(Intent.createChooser(sharingIntent,getResources().getString(R.string.app_name)));
+
     }
 
 
 
     @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         displaySelectedScreen(item.getItemId());

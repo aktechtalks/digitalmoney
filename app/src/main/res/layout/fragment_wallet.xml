@@ -59,7 +59,7 @@
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:textColor="@color/colorGreen"
         android:textAppearance="?android:textAppearanceMedium"
-        android:background="@drawable/rounded_button"/>
+        android:background="@color/colorWhite"/>
 
 
     <android.support.design.widget.TabLayout

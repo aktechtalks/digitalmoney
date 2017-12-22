@@ -35,9 +35,6 @@ import com.igalata.bubblepicker.adapter.BubblePickerAdapter;
 import com.igalata.bubblepicker.model.BubbleGradient;
 import com.igalata.bubblepicker.model.PickerItem;
 import com.igalata.bubblepicker.rendering.BubblePicker;
-
-import org.jetbrains.annotations.NotNull;
-
 import static com.digitalmoney.home.Utility.Utils.PREF_KEY_INSTALL;
 import static com.digitalmoney.home.Utility.Utils.PREF_KEY_SUCCESS_INSTALL;
 
@@ -53,7 +50,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
     private DatabaseReference  mDatabase;
     private String             taskTitle;
     private String uid =       FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private BubblePicker       picker;
+    //private BubblePicker       picker;
     private RelativeLayout     main_layout;
     private Boolean isAdClosed = false;
 
@@ -71,14 +68,14 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
         mAdViewBottom        = (AdView) findViewById(R.id.adViewShareBottom);
         mAdRequest           = new AdRequest.Builder().build();
         mNextLevelButton     = (Button) findViewById(R.id.next_level_button);
-        picker               = (BubblePicker) findViewById(R.id.picker);
+        //picker               = (BubblePicker) findViewById(R.id.picker);
         main_layout          = (RelativeLayout) findViewById(R.id.main_layout_interstial);
 
 
         applyBoldFont(mNextLevelButton);
         mNextLevelButton.setVisibility(View.GONE);
 
-        loadPicker();
+        //loadPicker();
 
         /* Initialisation of rewarded videos*/
         MobileAds.initialize(this, AD_UNIT_ID);
@@ -103,7 +100,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
 
 
 
-    private void loadPicker(){
+    /*private void loadPicker(){
 
         final String[] titles = getResources().getStringArray(R.array.countries);
         final TypedArray colors = getResources().obtainTypedArray(R.array.color_picker);
@@ -133,7 +130,8 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
         picker.setListener(new BubblePickerListener() {
             @Override
             public void onBubbleSelected(@NotNull PickerItem item) {
-                Toast.makeText(InterstitialActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(InterstitialActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -144,7 +142,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
         });
 
 
-    }
+    }*/
 
 
 
@@ -153,63 +151,6 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
         mAdViewBottom.loadAd(mAdRequest);
         mAdViewTop.loadAd(mAdRequest);
 
-        /*mAdViewTop.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
-        mAdViewBottom.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
-*/
     }
 
     private InterstitialAd newInterstitialAd() {
@@ -229,7 +170,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
                             mInterstitialAd.show();
                         }
                     }
-                }, 5000);
+                }, 1000);
                 Log.e("onAdLoaded::", "Success");
             }
 
@@ -304,7 +245,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
                             }
                         });
                     }
-                },10000);
+                },2000);
 
                 isAdClosed = true;
             }
@@ -429,7 +370,7 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
     }
 
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         picker.onResume();
@@ -439,6 +380,6 @@ public class InterstitialActivity extends BaseActivity implements RewardedVideoA
     protected void onPause() {
         super.onPause();
         picker.onPause();
-    }
+    }*/
 
 }
